@@ -12,13 +12,20 @@ const updateUser = '/apiPracticaFinal/updateUser';
 const deleteUser = '/apiPracticaFinal/deleteUser';
 const cors = require('cors');
 const app = express();
+
+
+app.use(cors());
+
 let port = process.env.PORT;
 
 if (port == null || port == '') {
   port = 8000;
 }
 
-app.use(cors());
+app.listen(port ,()=>{
+    console.log('listening to port:' + port)
+});
+
 
 app.get('/' , (req , res)=>{;
     res.send('Home')
@@ -26,9 +33,7 @@ app.get('/' , (req , res)=>{;
 
 app.use(express.json())
 
-app.listen(port ,()=>{
-    console.log('listening to port:' + port)
-});
+
 
 //Query para usuarios
 app.get(generalQueryUsers,(req,res)=>{
@@ -113,7 +118,7 @@ app.post(deleteUser,(req,res)=>{
 
 function checkForError(err,successMessage){
     if(err){
-        throw err;
+        res.status(500).send(err)
     }
     console.log(successMessage);   
 }
